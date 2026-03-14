@@ -3,81 +3,58 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Выбор таблицы">
 
-    <Grid Background="White">
-        <Border Width="500" Height="450"
-                Background="White"
-                BorderBrush="#2196F3"
-                BorderThickness="2"
-                CornerRadius="10"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1E1E2E" Offset="0"/>
+                <GradientStop Color="#2D1B69" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-            <StackPanel Margin="40" VerticalAlignment="Center">
-                <TextBlock Text="Просмотр таблиц" 
-                           FontSize="24" 
-                           FontWeight="Bold" 
-                           HorizontalAlignment="Center"
-                           Foreground="#2196F3"
-                           Margin="0,0,0,30"/>
+        <Border Width="420" VerticalAlignment="Center" HorizontalAlignment="Center"
+                Background="#2A2A3E" CornerRadius="16" Padding="40">
+            <Border.Effect>
+                <DropShadowEffect Color="#7C6AF7" BlurRadius="40" Opacity="0.25" ShadowDepth="0"/>
+            </Border.Effect>
 
-                <Button Content="Заказчики" 
-                        Height="50" 
-                        FontSize="16"
-                        Background="#2196F3"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Margin="0,0,0,10"
-                        Click="ShowCustomers_Click"/>
+            <StackPanel>
+                <TextBlock Text="📋" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                <TextBlock Text="Просмотр таблиц"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"
+                           Margin="0,0,0,6"/>
+                <TextBlock Text="Выберите таблицу для просмотра данных"
+                           FontSize="12" Foreground="#7070A0"
+                           HorizontalAlignment="Center" Margin="0,0,0,28"/>
 
-                <Button Content="Заказы покупателей" 
-                        Height="50" 
-                        FontSize="16"
-                        Background="#2196F3"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Margin="0,0,0,10"
-                        Click="ShowOrders_Click"/>
+                <Button Content="👥  Заказчики" Height="46" FontSize="14"
+                        Background="#7C6AF7" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,0,10" Click="ShowCustomers_Click"/>
 
-                <Button Content="Продукция" 
-                        Height="50" 
-                        FontSize="16"
-                        Background="#2196F3"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Margin="0,0,0,10"
-                        Click="ShowProducts_Click"/>
+                <Button Content="🛒  Заказы покупателей" Height="46" FontSize="14"
+                        Background="#7C6AF7" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,0,10" Click="ShowOrders_Click"/>
 
-                <Button Content="Цены" 
-                        Height="50" 
-                        FontSize="16"
-                        Background="#2196F3"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Margin="0,0,0,10"
-                        Click="ShowPrices_Click"/>
+                <Button Content="📦  Продукция" Height="46" FontSize="14"
+                        Background="#7C6AF7" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,0,10" Click="ShowProducts_Click"/>
 
-                <Button Content="Спецификация" 
-                        Height="50" 
-                        FontSize="16"
-                        Background="#2196F3"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Margin="0,0,0,10"
-                        Click="ShowSpecification_Click"/>
+                <Button Content="💰  Цены" Height="46" FontSize="14"
+                        Background="#7C6AF7" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,0,10" Click="ShowPrices_Click"/>
 
-                <Button Content="← Назад" 
-                        Height="40" 
-                        FontSize="14"
-                        Background="#999"
-                        Foreground="White"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Margin="0,20,0,0"
+                <Button Content="📄  Спецификация" Height="46" FontSize="14"
+                        Background="#7C6AF7" Foreground="White"
+                        BorderThickness="0" Cursor="Hand"
+                        Margin="0,0,0,24" Click="ShowSpecification_Click"/>
+
+                <Button Content="← Назад" Height="38" FontSize="13"
+                        Background="#3A3A5E" Foreground="#A0A0C0"
+                        BorderThickness="0" Cursor="Hand"
                         Click="BackButton_Click"/>
             </StackPanel>
         </Border>

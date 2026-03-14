@@ -3,58 +3,63 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Панель пользователя">
 
-    <Grid Background="#F5F5F5">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
-            <TextBlock Text="Панель пользователя" 
-                       FontSize="32" 
-                       FontWeight="Bold"
-                       Foreground="#2196F3"
-                       HorizontalAlignment="Center"
-                       Margin="0,0,0,40"/>
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1E1E2E" Offset="0"/>
+                <GradientStop Color="#0D2137" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-            <TextBlock Text="Модули 3 и 6" 
-                       FontSize="16"
-                       HorizontalAlignment="Center"
-                       Foreground="#666"
-                       Margin="0,0,0,20"/>
+        <Border Width="420" VerticalAlignment="Center" HorizontalAlignment="Center"
+                Background="#2A2A3E" CornerRadius="16" Padding="40">
+            <Border.Effect>
+                <DropShadowEffect Color="#00C896" BlurRadius="40" Opacity="0.2" ShadowDepth="0"/>
+            </Border.Effect>
 
-            <!-- Модуль 6: REST API -->
-            <Button Content="🎲 Получить случайное имя" 
-                    Height="50" 
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Background="#FF4081"
-                    Foreground="White"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="GetRandomNameButton_OnClick"
-                    Margin="0,0,0,10"/>
+            <StackPanel>
+                <TextBlock Text="👤" FontSize="36" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                <TextBlock Text="Панель пользователя"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Модули 3 и 6"
+                           FontSize="12" Foreground="#7070A0"
+                           HorizontalAlignment="Center" Margin="0,6,0,28"/>
 
-            <!-- Модуль 3: расчёт стоимости -->
-            <Button Content="📊 Расчёт стоимости продукции"
-                    Height="40"
-                    FontSize="14"
-                    Background="#4CAF50"
-                    Foreground="White"
-                    BorderThickness="0"
-                    Cursor="Hand"
-                    Click="OpenCostCalculationButton_OnClick"
-                    Margin="0,0,0,20"/>
+                <Button Content="🎲  Получить случайное имя"
+                        Height="48" FontSize="15" FontWeight="SemiBold"
+                        Foreground="White" BorderThickness="0"
+                        Cursor="Hand" Margin="0,0,0,12"
+                        Click="GetRandomNameButton_OnClick">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#F97316" Offset="0"/>
+                            <GradientStop Color="#EF4444" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
 
-            <Border Background="White" 
-                    BorderBrush="#DDDDDD" 
-                    BorderThickness="1"
-                    CornerRadius="5"
-                    Padding="20"
-                    MinHeight="100">
-                <TextBlock x:Name="ResultTextBlock"
-                           Text="Нажмите кнопку для получения случайного имени"
-                           FontSize="14"
-                           TextWrapping="Wrap"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="#333"/>
-            </Border>
-        </StackPanel>
+                <Button Content="📊  Расчёт стоимости продукции"
+                        Height="44" FontSize="14" FontWeight="SemiBold"
+                        Foreground="White" BorderThickness="0"
+                        Cursor="Hand" Margin="0,0,0,24"
+                        Click="OpenCostCalculationButton_OnClick">
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#00C896" Offset="0"/>
+                            <GradientStop Color="#0EA5E9" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+
+                <Border Background="#1A1A2E" CornerRadius="10" Padding="16" MinHeight="80">
+                    <TextBlock x:Name="ResultTextBlock"
+                               Text="Нажмите кнопку для получения случайного имени"
+                               FontSize="14" TextWrapping="Wrap"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Foreground="#7070A0"/>
+                </Border>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

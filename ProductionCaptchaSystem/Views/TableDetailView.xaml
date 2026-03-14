@@ -3,35 +3,39 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Таблица">
 
-    <Grid Margin="10">
+    <Grid Background="#1E1E2E">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock x:Name="TableTitle"
-                   Grid.Row="0"
-                   FontSize="20"
-                   FontWeight="Bold"
-                   Foreground="#2196F3"
-                   Margin="10"/>
+        <Border Grid.Row="0" Background="#2A2A3E" Padding="20,14" Margin="20,20,20,15">
+            <TextBlock x:Name="TableTitle" FontSize="20" FontWeight="Bold" Foreground="#E0E0FF"/>
+        </Border>
 
-        <DataGrid x:Name="TableGrid"
-                  Grid.Row="1"
-                  AutoGenerateColumns="True"
-                  IsReadOnly="True"
-                  Margin="10"/>
+        <Border Grid.Row="1" Background="#2A2A3E" Margin="20,0,20,15">
+            <DataGrid x:Name="TableGrid" AutoGenerateColumns="True"
+                      IsReadOnly="True" Background="Transparent"
+                      Foreground="#E0E0FF" BorderThickness="0"
+                      RowBackground="#1E1E2E" AlternatingRowBackground="#252535"
+                      GridLinesVisibility="Horizontal">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#7C6AF7"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Padding" Value="12,8"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+            </DataGrid>
+        </Border>
 
-        <Button Grid.Row="2"
-                Content="← Назад"
-                Width="120"
-                Height="35"
-                HorizontalAlignment="Left"
-                Background="#2196F3"
-                Foreground="White"
-                BorderThickness="0"
-                Margin="10"
+        <Button Grid.Row="2" Content="← Назад"
+                Width="130" Height="38" HorizontalAlignment="Left"
+                Background="#7C6AF7" Foreground="White"
+                BorderThickness="0" FontSize="14" Cursor="Hand"
+                Margin="20,0,0,20"
                 Click="BackButton_Click"/>
     </Grid>
 </Page>

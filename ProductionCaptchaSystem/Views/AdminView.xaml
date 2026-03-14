@@ -3,70 +3,60 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Панель администратора">
 
-    <Grid Background="#F5F5F5" Margin="20">
+    <Grid Background="#1E1E2E">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Верхняя панель с кнопками -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
-            <TextBlock Text="Панель администратора" 
-                      FontSize="24" 
-                      FontWeight="Bold"
-                      Foreground="#2196F3"
-                      VerticalAlignment="Center"
-                      Margin="0,0,30,0"/>
+        <!-- Шапка -->
+        <Border Grid.Row="0" Background="#2A2A3E" Padding="20,0">
+            <DockPanel>
+                <TextBlock Text="⚙ Панель администратора"
+                           FontSize="22" FontWeight="Bold"
+                           Foreground="#E0E0FF"
+                           VerticalAlignment="Center"
+                           DockPanel.Dock="Left"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Content="📥 Импорт" Width="120" Height="36"
+                            Background="#00C896" Foreground="White"
+                            BorderThickness="0" FontSize="13" Cursor="Hand"
+                            Click="ImportButton_OnClick" Margin="5,0"/>
+                    <Button Content="👥 Пользователи" Width="140" Height="36"
+                            Background="#7C6AF7" Foreground="White"
+                            BorderThickness="0" FontSize="13" Cursor="Hand"
+                            Click="UsersButton_OnClick" Margin="5,0"/>
+                    <Button Content="📊 Таблицы" Width="120" Height="36"
+                            Background="#F97316" Foreground="White"
+                            BorderThickness="0" FontSize="13" Cursor="Hand"
+                            Click="ViewTablesButton_OnClick" Margin="5,0"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
 
-            <Button Content="📥 Импорт данных" 
-                   Width="150" 
-                   Height="40"
-                   Background="#4CAF50"
-                   Foreground="White"
-                   BorderThickness="0"
-                   FontSize="14"
-                   Cursor="Hand"
-                   Click="ImportButton_OnClick"
-                   Margin="5"/>
-
-            <Button Content="👥 Пользователи" 
-                   Width="150" 
-                   Height="40"
-                   Background="#2196F3"
-                   Foreground="White"
-                   BorderThickness="0"
-                   FontSize="14"
-                   Cursor="Hand"
-                   Click="UsersButton_OnClick"
-                   Margin="5"/>
-
-            <Button Content="📊 Просмотр таблиц" 
-                   Width="170" 
-                   Height="40"
-                   Background="#FF9800"
-                   Foreground="White"
-                   BorderThickness="0"
-                   FontSize="14"
-                   Cursor="Hand"
-                   Click="ViewTablesButton_OnClick"
-                   Margin="5"/>
-        </StackPanel>
-
-        <!-- Контент (DataGrid или Лог импорта) -->
-        <Border Grid.Row="1" 
-                Background="White" 
-                BorderBrush="#DDDDDD" 
-                BorderThickness="1"
-                CornerRadius="5"
-                Padding="15">
-
+        <!-- Контент -->
+        <Border Grid.Row="1" Margin="20" Background="#2A2A3E"
+                CornerRadius="12" Padding="20">
             <Grid>
-                <!-- DataGrid для пользователей -->
-                <DataGrid x:Name="UsersDataGrid" 
-                         Visibility="Collapsed"
-                         AutoGenerateColumns="False"
-                         CanUserAddRows="False"
-                         SelectionMode="Single">
+                <DataGrid x:Name="UsersDataGrid"
+                          Visibility="Collapsed"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          SelectionMode="Single"
+                          Background="Transparent"
+                          Foreground="#E0E0FF"
+                          BorderThickness="0"
+                          RowBackground="#1E1E2E"
+                          AlternatingRowBackground="#252535"
+                          GridLinesVisibility="None">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="#7C6AF7"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Padding" Value="10,6"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
                         <DataGridTextColumn Header="Логин" Binding="{Binding Username}" Width="150"/>
@@ -76,15 +66,13 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <!-- Лог импорта -->
-                <ScrollViewer x:Name="ImportLogScroll" 
-                             Visibility="Visible"
-                             VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="ImportLogScroll"
+                              Visibility="Visible"
+                              VerticalScrollBarVisibility="Auto">
                     <TextBlock x:Name="ImportLogTextBlock"
-                              FontFamily="Consolas"
-                              FontSize="12"
-                              Foreground="#333"
-                              Text="Нажмите 'Импорт данных' для загрузки файлов из папки Data/"/>
+                               FontFamily="Consolas" FontSize="13"
+                               Foreground="#A0A0C0" TextWrapping="Wrap"
+                               Text="Нажмите 'Импорт' для загрузки файлов из папки Data/"/>
                 </ScrollViewer>
             </Grid>
         </Border>
