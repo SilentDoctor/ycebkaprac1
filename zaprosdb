@@ -1,0 +1,138 @@
+-- 1. Таблица пользователей
+CREATE TABLE IF NOT EXISTS "User" (
+    "Id" SERIAL PRIMARY KEY,
+    "Username" VARCHAR(50) NOT NULL UNIQUE,
+    "Password" VARCHAR(255) NOT NULL,
+    "IsAdmin" BOOLEAN NOT NULL DEFAULT FALSE,
+    "IsBlocked" BOOLEAN NOT NULL DEFAULT FALSE,
+    "BlockedUntil" TIMESTAMP NULL,
+    "CreatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Таблица контрагентов
+CREATE TABLE IF NOT EXISTS "Counterparty" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255) NOT NULL,
+    "Inn" VARCHAR(12) NULL,
+    "Address" TEXT NULL,
+    "Phone" VARCHAR(50) NULL,
+    "Email" VARCHAR(100) NULL,
+    "CreatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3. Таблица типов изделий
+CREATE TABLE IF NOT EXISTS "ItemType" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- 4. Таблица изделий (продукты и материалы)
+CREATE TABLE IF NOT EXISTS "Item" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255) NOT NULL,
+    "Article" VARCHAR(100) NULL UNIQUE,
+    "Unit" VARCHAR(50) NOT NULL DEFAULT 'шт',
+    "Price" DECIMAL(18,2) NOT NULL DEFAULT 0,
+    "TypeId" INTEGER NOT NULL,
+    "Description" TEXT NULL,
+    "CreatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "FK_Item_ItemType" FOREIGN KEY ("TypeId") REFERENCES "ItemType"("Id")
+);
+
+-- 5. Таблица спецификаций
+CREATE TABLE IF NOT EXISTS "Specification" (
+    "Id" SERIAL PRIMARY KEY,
+    "ProductId" INTEGER NOT NULL,
+    "Name" VARCHAR(255) NOT NULL,
+    "Description" TEXT NULL,
+    "CreatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "FK_Specification_Product" FOREIGN KEY ("ProductId") REFERENCES "Item"("Id")
+);
+
+-- 6. Таблица строк спецификации
+CREATE TABLE IF NOT EXISTS "SpecificationLine" (
+    "Id" SERIAL PRIMARY KEY,
+    "SpecificationId" INTEGER NOT NULL,
+    "MaterialId" INTEGER NOT NULL,
+    "Quantity" DECIMAL(18,3) NOT NULL,
+    CONSTRAINT "FK_SpecificationLine_Specification" FOREIGN KEY ("SpecificationId") REFERENCES "Specification"("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_SpecificationLine_Material" FOREIGN KEY ("MaterialId") REFERENCES "Item"("Id")
+);
+
+-- 7. Таблица заказов покупателя
+CREATE TABLE IF NOT EXISTS "CustomerOrder" (
+    "Id" SERIAL PRIMARY KEY,
+    "OrderNumber" VARCHAR(50) NOT NULL UNIQUE,
+    "CounterpartyId" INTEGER NOT NULL,
+    "OrderDate" TIMESTAMP NOT NULL,
+    "RequiredDate" TIMESTAMP NULL,
+    "Status" VARCHAR(50) NOT NULL DEFAULT 'Новый',
+    "TotalAmount" DECIMAL(18,2) NOT NULL DEFAULT 0,
+    "Comment" TEXT NULL,
+    CONSTRAINT "FK_CustomerOrder_Counterparty" FOREIGN KEY ("CounterpartyId") REFERENCES "Counterparty"("Id")
+);
+
+-- 8. Таблица позиций заказа покупателя
+CREATE TABLE IF NOT EXISTS "OrderItem" (
+    "Id" SERIAL PRIMARY KEY,
+    "CustomerOrderId" INTEGER NOT NULL,
+    "ProductId" INTEGER NOT NULL,
+    "Quantity" DECIMAL(18,3) NOT NULL,
+    "Price" DECIMAL(18,2) NOT NULL,
+    "Amount" DECIMAL(18,2) NOT NULL,
+    CONSTRAINT "FK_OrderItem_CustomerOrder" FOREIGN KEY ("CustomerOrderId") REFERENCES "CustomerOrder"("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_OrderItem_Product" FOREIGN KEY ("ProductId") REFERENCES "Item"("Id")
+);
+
+-- 9. Таблица производственных заказов
+CREATE TABLE IF NOT EXISTS "ProductionOrder" (
+    "Id" SERIAL PRIMARY KEY,
+    "OrderNumber" VARCHAR(50) NOT NULL UNIQUE,
+    "CustomerOrderId" INTEGER NULL,
+    "StartDate" TIMESTAMP NOT NULL,
+    "PlannedEndDate" TIMESTAMP NULL,
+    "ActualEndDate" TIMESTAMP NULL,
+    "Status" VARCHAR(50) NOT NULL DEFAULT 'Новый',
+    "Comment" TEXT NULL,
+    CONSTRAINT "FK_ProductionOrder_CustomerOrder" FOREIGN KEY ("CustomerOrderId") REFERENCES "CustomerOrder"("Id")
+);
+
+-- 10. Таблица продуктов в производственном заказе
+CREATE TABLE IF NOT EXISTS "ProductionOrderProduct" (
+    "Id" SERIAL PRIMARY KEY,
+    "ProductionOrderId" INTEGER NOT NULL,
+    "ProductId" INTEGER NOT NULL,
+    "Quantity" DECIMAL(18,3) NOT NULL,
+    "ProducedQuantity" DECIMAL(18,3) NOT NULL DEFAULT 0,
+    CONSTRAINT "FK_ProductionOrderProduct_ProductionOrder" FOREIGN KEY ("ProductionOrderId") REFERENCES "ProductionOrder"("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_ProductionOrderProduct_Product" FOREIGN KEY ("ProductId") REFERENCES "Item"("Id")
+);
+
+-- 11. Таблица материалов в производственном заказе
+CREATE TABLE IF NOT EXISTS "ProductionOrderMaterial" (
+    "Id" SERIAL PRIMARY KEY,
+    "ProductionOrderId" INTEGER NOT NULL,
+    "MaterialId" INTEGER NOT NULL,
+    "RequiredQuantity" DECIMAL(18,3) NOT NULL,
+    "UsedQuantity" DECIMAL(18,3) NOT NULL DEFAULT 0,
+    CONSTRAINT "FK_ProductionOrderMaterial_ProductionOrder" FOREIGN KEY ("ProductionOrderId") REFERENCES "ProductionOrder"("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_ProductionOrderMaterial_Material" FOREIGN KEY ("MaterialId") REFERENCES "Item"("Id")
+);
+
+-- ============================================
+-- ВСТАВКА НАЧАЛЬНЫХ ДАННЫХ
+-- ============================================
+
+-- Создание типов изделий
+INSERT INTO "ItemType" ("Id", "Name") VALUES 
+(1, 'Продукт'),
+(2, 'Материал')
+ON CONFLICT ("Name") DO NOTHING;
+
+-- Создание тестовых пользователей
+INSERT INTO "User" ("Username", "Password", "IsAdmin") VALUES 
+('admin', '111', TRUE),
+('user', '111', FALSE)
+ON CONFLICT ("Username") DO NOTHING;
+
+-- НАЗОВИ БД importdb
