@@ -1,0 +1,12 @@
+<Window x:Class="ProductionCaptchaSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Система управления производством" 
+        Height="600" 
+        Width="900"
+        WindowStartupLocation="CenterScreen">
+    
+    <Grid>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>
